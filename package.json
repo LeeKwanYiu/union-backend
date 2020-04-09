@@ -1,0 +1,24 @@
+{
+  "name": "union-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=development nodemon --inspect server.js",
+    "build": "node ./build/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "config": "^3.3.0",
+    "cross-env": "^7.0.2",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
+    "mongoose": "^5.9.6"
+  }
+}

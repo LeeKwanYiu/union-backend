@@ -1,0 +1,6 @@
+{
+  "Customer": {
+    "settings": "settings",
+    "log4js": "log4js"
+  }
+}
