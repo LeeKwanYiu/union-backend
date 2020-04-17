@@ -12,5 +12,8 @@ module.exports = function (app) {
   app.get('/api/user', Controllers.user.getUserInfo)
   require('./application')(app)
   require('./user')(app)
+  require('./union')(app)
+  require('./project')(app)
+  require('./task')(app)
   app.use(middleware.notFind)
 }

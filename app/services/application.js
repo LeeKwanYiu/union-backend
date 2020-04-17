@@ -49,17 +49,18 @@ class ApplicationService {
         type
       } = application.toObject()
       const user = await mdb.User.findOne({ _id: creator })
-      console.log(user)
       if (operation === 'pass') {
         user.message.push({ detail: `${unionName}创建申请通过` })
-        await mdb.Union.create({
+        const result = await mdb.Union.create({
           unionName,
           introduction,
           userId: [creator],
-          creatorUserId: creator,
-          adminUserId: [creator],
+          creator,
+          adminUsers: [creator],
           type
         })
+        const unionId = result._id
+        user.union.push(unionId)
       } else {
         user.message.push({ detail: `${unionName}创建申请不通过` })
       }

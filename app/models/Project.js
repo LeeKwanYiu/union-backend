@@ -4,9 +4,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const moment = require('moment')
 const ProjectSchema = new Schema({
-  projectId: { type: Schema.Types.ObjectId, required: 'id is required' }, // 用户ID
-  projectName: { type: String, required: 'name is required' },
-  unionId: { type: Schema.Types.ObjectId, required: 'unionid is required' },
+  projectName: { type: String, required: true },
+  unionId: { type: Schema.Types.ObjectId, required: true },
+  creator: { type: String, required: true },
+  taskNum: { type: Number, default: 0 },
   createdAt: {
     type: Date,
     default: Date.now

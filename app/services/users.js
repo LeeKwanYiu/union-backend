@@ -6,7 +6,7 @@ class UserService {
   // 添加用户
   async addUser(data) {
     try {
-      const findRes = await mdb.User.findOne({ studentNum: data.studentNum })
+      const findRes = await mdb.User.findOne({ name: data.name })
       if (findRes) {
         throw 'USER_HAS_EXISTS'
       }
@@ -47,7 +47,7 @@ class UserService {
           return { id, name, token, role: 'admin' }
         }
       }
-      const findUserRes = await mdb.User.findOne({ studentNum: params.name }) // lean设置为true返回js对象
+      const findUserRes = await mdb.User.findOne({ name: params.name }) // lean设置为true返回js对象
       if (!findUserRes) {
         const errorMsg = 'USER_NOT_EXITS'
         throw errorMsg

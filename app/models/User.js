@@ -39,9 +39,9 @@ const UserSchema = new Schema({
 UserSchema.set('toJSON', { getters: true, virtuals: true })
 UserSchema.set('toObject', { getters: true, virtuals: true })
 
-UserSchema.virtual('userId').get(function () {
-  return this._id.toString()
-})
+// UserSchema.virtual('userId').get(function () {
+//   return this._id.toString()
+// })
 
 UserSchema.path('createdAt').get(function (v) {
   return moment(v).format('YYYY-MM-DD HH:mm:ss')

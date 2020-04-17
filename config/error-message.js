@@ -65,5 +65,16 @@ module.exports = {
     status: 200,
     errorCode: 20203,
     errorMsg: '获取社团失败'
+  },
+  // 社团模块
+  APPLICATION_HAS_EXISTS: {
+    status: 200,
+    errorCode: 20301,
+    errorMsg: '已申请过社团'
+  },
+  CREATE_TASK_ERROR: {
+    status: 200,
+    errorCode: 20302,
+    errorMsg: '创建任务失败'
   }
 }
