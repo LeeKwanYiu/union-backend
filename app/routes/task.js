@@ -9,5 +9,9 @@ module.exports = app => {
     .get(Controllers.task.getTasks)
   app.route('/api/tasks/:taskId')
     .post(Controllers.task.modifyTask)
+  app.route('/api/tasks/:taskId/times')
+    .get(Controllers.task.getTimes)
+  app.route('/api/tasks/:taskId')
+    .get(Controllers.task.getSingleTask)
 }
 

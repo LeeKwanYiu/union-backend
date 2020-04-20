@@ -91,6 +91,7 @@ class UnionService {
       const user = await mdb.User.findOne({ _id: userId })
       if (operation === 'pass') {
         union.userId.push(userId)
+        user.union.push(unionId)
         user.message.push({ detail: `${union.unionName}的加入申请已通过` })
       }
       else

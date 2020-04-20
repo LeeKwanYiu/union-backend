@@ -27,6 +27,16 @@ class TaskController {
       res.sendErr(errMsg)
     }
   }
+
+  async getSingleTask(req, res) {
+    try {
+      const result = await Services.tasks.getSingleTask(req.params)
+      res.sendOk(result)
+    } catch (error) {
+      const errMsg = getErrMsg(error)
+      res.sendErr(errMsg)
+    }
+  }
   // 更新任务
   async modifyTask(req, res) {
     try {
@@ -35,6 +45,15 @@ class TaskController {
         res.sendOk({})
       else
         throw 'SERVER_ERROR'
+    } catch (error) {
+      const errMsg = getErrMsg(error)
+      res.sendErr(errMsg)
+    }
+  }
+  async getTimes(req, res) {
+    try {
+      const result = await Services.tasks.getTimes(req.params)
+      res.sendOk(result)
     } catch (error) {
       const errMsg = getErrMsg(error)
       res.sendErr(errMsg)
