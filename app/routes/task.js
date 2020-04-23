@@ -13,5 +13,6 @@ module.exports = app => {
     .get(Controllers.task.getTimes)
   app.route('/api/tasks/:taskId')
     .get(Controllers.task.getSingleTask)
+  app.post('/api/upload/:taskId', Controllers.task.fileUpload)
 }
 

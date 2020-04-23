@@ -3,6 +3,24 @@
 const Services = require('../services')
 const { getErrMsg } = require('../myutil')
 
+const multer = require('multer')
+const path = require('path')
+
+// 定义存储路径和文件名
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // const url = path.normalize(__dirname)
+    const url = path.join(__dirname, '..', '..', 'public')
+    cb(null, url)
+  },
+  filename: (req, file, cb) => {
+    const { taskId } = req.params
+    cb(null, taskId + '-' + file.originalname)
+  }
+})
+
+const upload = multer({ storage }).single('file')
+
 class TaskController {
   async addTask(req, res) {
     try {
@@ -58,6 +76,22 @@ class TaskController {
       const errMsg = getErrMsg(error)
       res.sendErr(errMsg)
     }
+  }
+
+  // 文件上传
+  async fileUpload(req, res) {
+    upload(req, res, async err => {
+      try {
+        if (err) {
+          throw 'UPLOAD_MISTAKE'
+        }
+        await Services.tasks.upload(req.params, req.file)
+        res.sendOk({})
+      } catch (error) {
+        const errMsg = getErrMsg(error)
+        res.sendErr(errMsg)
+      }
+    })
   }
 }
 

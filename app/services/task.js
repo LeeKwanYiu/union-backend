@@ -2,8 +2,11 @@
 
 const mdb = require('../models')
 const moment = require('moment')
+const path = require('path')
 
 const state = ['未处理', '审核中', '已完成']
+
+const localhost = 'http://127.0.0.1:3002/file/'
 
 class TaskService {
   async addTask(data) {
@@ -48,11 +51,11 @@ class TaskService {
     try {
       const { taskId } = params
       let result = await mdb.Task.findOne({ _id: taskId })
-      // result = JSON.parse(JSON.stringify(result))
-      // result.message.forEach((element, index) => {
-      //   result.message[index].time = moment(element.time).format('YYYY-MM-DD HH:mm:ss')
-      // });
-      return result.toObject();
+      result = JSON.parse(JSON.stringify(result))
+      result.message.forEach((element, index) => {
+        result.message[index].time = moment(element.time).format('YYYY-MM-DD HH:mm:ss')
+      });
+      return result;
     } catch (error) {
       throw 'SERVER_ERROR'
     }
@@ -105,6 +108,26 @@ class TaskService {
       return message
     } catch (error) {
       throw 'SERVER_ERROR'
+    }
+  }
+
+  // 文件上传
+  async upload(params, file) {
+    try {
+      const { taskId } = params
+      const task = await mdb.Task.findOne({ _id: taskId })
+      const url = localhost + file.filename
+      const document = task.files.find(v => v.url === url)
+      if (document)
+        throw 'FILE_EXITS'
+      task.files.push({
+        url,
+        name: file.originalname
+      })
+      task.save()
+    } catch (error) {
+      console.log(error)
+      throw error
     }
   }
 }

@@ -11,16 +11,38 @@ const UserSchema = new Schema({
 const messageSchema = new Schema({
   detail: { type: String, required: true },
   time: {
-    type: String,
-    default: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+    type: Date,
+    default: Date.now,
     // get: val => moment(val).format('YYYY-MM-DD HH:mm:ss')
   }
 })
-messageSchema.path('time').get(function (v) {
-  return moment(v).format('YYYY-MM-DD HH:mm:ss')
+
+const documentSchema = new Schema({
+  url: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  status: {
+    type: String,
+    default: 'done'
+  },
+  uid: {
+    type: String,
+    default: function () {
+      return this._id
+    }
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 })
 
-// 默认富文本框内容
+// 默认富文本框内容 
 const defaultContent = "<p><strong>任务内容：</strong></p><p></p><p></p><p></p><p></p><p></p><p><strong>完成情况：</strong></p><p></p><p></p>"
 
 const TaskSchema = new Schema({
@@ -30,7 +52,7 @@ const TaskSchema = new Schema({
   user: { type: UserSchema, required: 'userid is required' },
   projectId: { type: String, required: 'projectid is required' },
   taskState: { type: Number, enum: [0, 1, 2], default: 0 },
-  documents: { type: [String], default: [] },
+  files: { type: [documentSchema], default: [] },
   message: { type: [messageSchema], default: [] },
   createdAt: {
     type: Date,
