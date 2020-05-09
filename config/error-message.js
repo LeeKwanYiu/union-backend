@@ -76,5 +76,10 @@ module.exports = {
     status: 200,
     errorCode: 20302,
     errorMsg: '创建任务失败'
+  },
+  FILE_EXITS: {
+    status: 200,
+    errorCode: 20303,
+    errorMsg: '文件已存在'
   }
 }

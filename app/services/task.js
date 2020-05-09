@@ -3,6 +3,7 @@
 const mdb = require('../models')
 const moment = require('moment')
 const path = require('path')
+const fs = require('fs')
 
 const state = ['未处理', '审核中', '已完成']
 
@@ -112,7 +113,7 @@ class TaskService {
   }
 
   // 文件上传
-  async upload(params, file) {
+  async upload(params, file, { name }) {
     try {
       const { taskId } = params
       const task = await mdb.Task.findOne({ _id: taskId })
@@ -122,11 +123,32 @@ class TaskService {
         throw 'FILE_EXITS'
       task.files.push({
         url,
-        name: file.originalname
+        name: file.originalname,
+        path: path.join(file.destination, file.filename)
       })
+      task.message.unshift({
+        detail: `${name}上传了 ${file.originalname} 文件`
+      })
+      task.updatedAt = Date.now()
       task.save()
     } catch (error) {
       console.log(error)
+      throw error
+    }
+  }
+
+  // 删除文件
+  async deleteFile(params, { name }) {
+    try {
+      const { taskId, fileId } = params
+      const task = await mdb.Task.findOne({ _id: taskId })
+      const file = task.files.id(fileId)
+      fs.unlinkSync(file.path)
+      task.files.id(fileId).remove()
+      task.message.unshift({ detail: `${name}删除了 ${file.name} 文件` })
+      task.updatedAt = Date.now()
+      task.save()
+    } catch (error) {
       throw error
     }
   }

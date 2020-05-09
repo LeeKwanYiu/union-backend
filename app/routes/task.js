@@ -14,5 +14,6 @@ module.exports = app => {
   app.route('/api/tasks/:taskId')
     .get(Controllers.task.getSingleTask)
   app.post('/api/upload/:taskId', Controllers.task.fileUpload)
+  app.delete('/api/tasks/:taskId/files/:fileId', Controllers.task.deleteFile)
 }
 

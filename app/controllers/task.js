@@ -85,13 +85,24 @@ class TaskController {
         if (err) {
           throw 'UPLOAD_MISTAKE'
         }
-        await Services.tasks.upload(req.params, req.file)
+        await Services.tasks.upload(req.params, req.file, req.body)
         res.sendOk({})
       } catch (error) {
         const errMsg = getErrMsg(error)
         res.sendErr(errMsg)
       }
     })
+  }
+
+  // 删除文件
+  async deleteFile(req, res) {
+    try {
+      await Services.tasks.deleteFile(req.params, req.body)
+      res.sendOk({})
+    } catch (error) {
+      const errMsg = getErrMsg(error)
+      res.sendErr(errMsg)
+    }
   }
 }
 
